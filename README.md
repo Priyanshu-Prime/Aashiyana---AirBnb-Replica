@@ -6,7 +6,7 @@ This is an attempt to make a website that works like the famous house rental web
 
 - [Overview](#overview)
   - [Screenshot](#screenshot)
-  - [Links](#links)
+  <!-- - [Links](#links) -->
 - [My process](#my-process)
   - [Built with](#built-with)
   <!-- - [What I learned](#what-i-learned) -->
@@ -21,7 +21,7 @@ This is an attempt to make a website that works like the famous house rental web
 
 ### Links
 
-- Live Site URL: [Add live site URL here](https://your-live-site-url.com)
+<!-- - Live Site URL: [Aashiyana](https://your-live-site-url.com) -->
 
 ## My process
 
