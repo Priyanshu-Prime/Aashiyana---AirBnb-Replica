@@ -1,0 +1,116 @@
+*
+{
+    margin: none;
+}
+
+body
+{
+    font-family: "Plus Jakarta Sans", sans-serif !important;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+.container
+{
+    flex: 1;
+}
+
+.navbar
+{
+    height: 4.5rem;
+    background-color: white;
+}
+.fa-suitcase
+{
+    color: aquamarine;
+    font-size: 2rem;
+}
+.nav-link
+{
+    color: rgb(21, 2, 2) !important;
+}
+
+.f-info-links a
+{
+    color: #222222;
+    text-decoration: none;
+}
+.f-info-links a:hover
+{
+    text-decoration: underline;
+}
+.f-info
+{
+    display: flex;
+    background-color: #ebebeb;
+    height: 6rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    text-align: center;
+    align-items: space-evenly;
+}
+.f-info-links
+{
+    width: 100%;
+}
+.f-info-socials
+{
+    width: 100%;
+}
+.f-info-socials i
+{
+    font-size: 1.2rem;
+    margin: 0.5rem 0rem 0rem 0.5rem;
+}
+
+.card
+{
+    border: none !important;
+    margin-bottom: 1.5rem;
+}
+.card-img-top
+{
+    border-radius: 1rem !important;
+    width: 100% !important;
+    object-fit: cover !important;
+}
+.card-text
+{
+    max-height: 4.5rem; 
+    overflow: hidden !important; 
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: black;
+}
+.card-body
+{
+    color: black !important;
+}
+.listing-link
+{
+    text-decoration: none;
+}
+
+.card-img-overlay:hover
+{
+    opacity: 0.3;
+    background-color: white;
+}
+
+.add-btn
+{
+    background-color: aquamarine !important;
+    border: none !important;
+    margin-right: 0.5rem;
+}
+
+form label
+{
+    padding-left: 0.5rem;
+}
+
+.show-card
+{
+    max-height: 10rem !important;
+    overflow: none !important;
+}

@@ -1,0 +1,48 @@
+<% layout("/layouts/boilerplate.ejs") %>
+<body>
+    <div class="row">
+        <div class="col-8 offset-2">
+            <h3 style="margin: 2rem 0rem">Create New Listing</h3>
+            <form method="POST" action="/listings">
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="title mb-3" >
+                            <label for="title" class="form-label">Enter Title</label>
+                            <input name="title" class="form-control" placeholder="Add the amazing title">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="price mb-3">
+                            <label for="price" class="form-label">Enter Price</label>
+                            <input name="price" class="form-control" placeholder="Eg: 2400">
+                        </div>
+                    </div>
+                </div>
+                <div class="description mb-3">
+                    <label for="description" class="form-label">Enter Description</label>
+                    <input name="description" class="form-control">
+                </div>
+                <div class="image mb-3">
+                    <label for="image.url" class="form-label">Enter Image URL</label>
+                    <input name="image.url" class="form-control" placeholder="www.xyz.in/...">
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="location mb-3">
+                            <label for="location" class="form-label">Enter Location</label>
+                            <input name="location" class="form-control">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="country mb-3">
+                            <label for="country" class="form-label">Enter Country</label>
+                            <input name="country" class="form-control">
+                        </div>
+                    </div>
+                </div>
+                <button class="btn btn-dark add-btn" style="margin: 1rem 0rem 3rem 0rem">Create Listing</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
