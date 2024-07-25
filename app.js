@@ -6,6 +6,7 @@ const path = require("path");
 const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
 const wrapAsync = require("./utils/wrapAsync.js");
+const ExpressError = require("./utils/ExpressError.js");
 
 app.use(express.static(path.join(__dirname, "/public")));
 
@@ -53,47 +54,62 @@ app.use(express.urlencoded({extended: true}));
 //     .catch((err) => console.log(err));
 // });
 
-app.get("/listings", async (req, res) => 
+app.get("/listings", wrapAsync (async (req, res) => 
 {
     const allListings = await Listing.find({});
     res.render("listings/index.ejs", {allListings});
-});
+})
+);
 
-app.get("/listings/new", async (req, res) =>
+app.get("/listings/new", wrapAsync (async (req, res) =>
 {
     res.render("listings/new.ejs");
-});
+})
+);
 
-app.get("/listings/:id", async (req, res) =>
+app.get("/listings/:id", wrapAsync (async (req, res) =>
 {
     let {id} = req.params;
     const listing = await Listing.findById(id);
     console.log(listing);
     res.render("listings/show.ejs", {listing});
-});
+})
+);
 
 app.post("/listings", wrapAsync (async (req, res) =>
 {
     console.log(req.body);
+    if (!req.body.listing)
+    {
+        throw new ExpressError(400, "Send valid data");
+    }
     let listing = new Listing(req.body);
     await listing.save();
     res.redirect("/listings");
 })
 );
 
-app.get("/listings/:id/edit", async (req, res) =>
+app.get("/listings/:id/edit", wrapAsync (async (req, res) =>
 {
     let {id} = req.params;
     const listing = await Listing.findById(id);
     res.render("listings/edit.ejs", {listing});
-});
+})
+);
+
+app.all("*", (req, res, next) =>
+{
+    next(new ExpressError(404, "Page Not Found"));
+})
 
 app.use((err, req, res, next) => 
 {
-    res.send("Something went wrong!");
+    let {statusCode = 500, msg = "Something went wrong"} = err;
+    res.render("error.ejs", {msg})
+    // res.status(statusCode).send(msg);
 });
 
-app.patch("/listings/:id", async (req, res) =>
+app.patch("/listings/:id", wrapAsync (async (req, res) =>
 {
     let {id} = req.params;
     let {title, description, price, url, location, country} = req.body;
@@ -108,9 +124,10 @@ app.patch("/listings/:id", async (req, res) =>
     .then((res)=>console.log(res))
     .catch((err)=>console.log(err));
     res.redirect(`/listings`);
-});
+})
+);
 
-app.delete("/listings/:id/delete", async (req, res) =>
+app.delete("/listings/:id/delete", wrapAsync (async (req, res) =>
 {
     let {id} = req.params;
     await Listing.findByIdAndDelete(id)
@@ -118,3 +135,4 @@ app.delete("/listings/:id/delete", async (req, res) =>
     .catch((err) => console.log(err));
     res.redirect("/listings");
 })
+);
