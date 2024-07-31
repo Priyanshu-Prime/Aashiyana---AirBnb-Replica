@@ -7,6 +7,7 @@ const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
 const wrapAsync = require("./utils/wrapAsync.js");
 const ExpressError = require("./utils/ExpressError.js");
+const listingSchema = require("./schema.js");
 
 app.use(express.static(path.join(__dirname, "/public")));
 
@@ -78,13 +79,11 @@ app.get("/listings/:id", wrapAsync (async (req, res) =>
 
 app.post("/listings", wrapAsync (async (req, res) =>
 {
-    console.log(req.body);
-    if (!req.body.listing)
-    {
-        throw new ExpressError(400, "Send valid data");
-    }
+    // console.log(req.body);
+    let result = listingSchema.validate(req.body);
+    console.log(result);
     let listing = new Listing(req.body);
-    await listing.save();
+    await listing.save();   
     res.redirect("/listings");
 })
 );
@@ -97,21 +96,10 @@ app.get("/listings/:id/edit", wrapAsync (async (req, res) =>
 })
 );
 
-app.all("*", (req, res, next) =>
-{
-    next(new ExpressError(404, "Page Not Found"));
-})
-
-app.use((err, req, res, next) => 
-{
-    let {statusCode = 500, msg = "Something went wrong"} = err;
-    res.render("error.ejs", {msg})
-    // res.status(statusCode).send(msg);
-});
 
 app.patch("/listings/:id", wrapAsync (async (req, res) =>
-{
-    let {id} = req.params;
+    {
+        let {id} = req.params;
     let {title, description, price, url, location, country} = req.body;
     await Listing.findByIdAndUpdate(id, {
         title: title,
@@ -128,7 +116,7 @@ app.patch("/listings/:id", wrapAsync (async (req, res) =>
 );
 
 app.delete("/listings/:id/delete", wrapAsync (async (req, res) =>
-{
+    {
     let {id} = req.params;
     await Listing.findByIdAndDelete(id)
     .then((res) => console.log(res))
@@ -136,3 +124,15 @@ app.delete("/listings/:id/delete", wrapAsync (async (req, res) =>
     res.redirect("/listings");
 })
 );
+
+app.all("*", (req, res, next) =>
+{
+    next(new ExpressError(404, "Page Not Found"));
+})
+
+app.use((err, req, res, next) => 
+{
+    let {statusCode = 500, msg = "Something went wrong"} = err;
+    // res.render("error.ejs", {msg})
+    res.status(statusCode).send(msg);
+});
