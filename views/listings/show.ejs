@@ -22,11 +22,11 @@
           <form action="/listings/<%= listing.id%>/reviews" method="POST" novalidate class="needs-validation">
             <div class="mb-3 mt-3">
               <label class="mb-1 form-label form-range" for="rating">Rating</label><br>
-              <input type="range" min="1" max="5" id="rating" name="review[rating]" required>
+              <input type="range" min="1" max="5" id="rating" name="review[rating]">
             </div>
             <div>
               <label class="form-label" for="comment">Add Comments</label>
-              <textarea class="form-control" name="review[comment]" id="comment" cols="30" rows="5"></textarea>
+              <textarea class="form-control" name="review[comment]" id="comment" cols="30" rows="5" required></textarea>
             </div>
             <button class="mt-3 btn btn-outline-dark">Submit</button>
           </form>
