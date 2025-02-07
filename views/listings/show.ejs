@@ -19,10 +19,10 @@
         <hr style="opacity: 20%;">
         <div class="mb-3 mt-3 col-8">
           <h5>Leave a Review</h4>
-          <form>
+          <form action="/listings/<%= listing.id%>/reviews" method="POST" novalidate class="needs-validation">
             <div class="mb-3 mt-3">
               <label class="mb-1 form-label form-range" for="rating">Rating</label><br>
-              <input type="range" min="1" max="5" id="rating" name="review[rating]">
+              <input type="range" min="1" max="5" id="rating" name="review[rating]" required>
             </div>
             <div>
               <label class="form-label" for="comment">Add Comments</label>
