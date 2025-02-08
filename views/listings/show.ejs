@@ -1,6 +1,6 @@
 <% layout("/layouts/boilerplate.ejs") %>
 <body>
-    <div class="card col-6 offset-3" style="max-width: 40rem; margin-top: 2rem">
+    <div class="card listing-card col-6 offset-3" style="max-width: 40rem; margin-top: 2rem">
         <img src="<%= listing.image.url %>" class="card-img-top" alt="<%= listing.image.filename %>">
         <div class="card-body">
           <h5 class="card-title"><%= listing.title %></h5>
@@ -19,7 +19,7 @@
         <hr style="opacity: 20%;">
         <div class="mb-3 mt-3 col-8">
           <h5>Leave a Review</h4>
-          <form action="/listings/<%= listing.id%>/reviews" method="POST" novalidate class="needs-validation">
+          <form action="/listings/<%= listing._id%>/reviews" method="POST" novalidate class="needs-validation">
             <div class="mb-3 mt-3">
               <label class="mb-1 form-label form-range" for="rating">Rating</label><br>
               <input type="range" min="1" max="5" id="rating" name="review[rating]">
@@ -31,6 +31,24 @@
             </div>
             <button class="mt-3 btn btn-outline-dark">Submit</button>
           </form>
+        </div>
+        <hr>
+        <div class="all-reviews mt-2">
+          <h5 class="mb-3">All reviews</h5>
+          <div class="row">
+            <% for (review of listing.reviews) { %>
+              <div class="card ms-3 col-5 mb-2">
+                <div class="card-body">
+                  <h5 class="card-title">User</h5>
+                  <div class="card-text"><%=review.comment%></div>
+                  <div class="card-text"><%=review.rating%> stars</div> 
+                </div>
+                <form action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE" method="POST">
+                  <button class="btn btn-sm btn-dark mb-3 ms-2">Delete</button>
+                </form> 
+              </div>
+            <% } %>
+          </div>
         </div>
     </div>
 </body>

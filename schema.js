@@ -29,4 +29,4 @@ module.exports.reviewSchema = joi.object(
             }
         ).required()
     }
-)
+);

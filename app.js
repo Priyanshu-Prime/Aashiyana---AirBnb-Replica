@@ -43,10 +43,10 @@ app.get("/", (req, res) =>
 const validateListing = (req, res, next) =>
 {
     let {error} = listingSchema.validate(req.body);
-    console.log(error.message);
+    console.log(error);
     if (error)
     {
-        throw new ExpressError(400, error.message);
+        throw new ExpressError(400, error);
     }
     else
     {
@@ -56,11 +56,12 @@ const validateListing = (req, res, next) =>
 
 const validateReview = (req, res, next) =>
 {
+    // console.log("Entering validation");
     let {error} = reviewSchema.validate(req.body);
-    console.log(error.message);
+    console.log(error);
     if (error)
     {
-        throw new ExpressError(400, error.message);
+        throw new ExpressError(400, error);
     }
     else
     {
@@ -100,7 +101,7 @@ app.get("/listings/new", wrapAsync (async (req, res) =>
 app.get("/listings/:id", wrapAsync (async (req, res) =>
 {
     let {id} = req.params;
-    const listing = await Listing.findById(id);
+    const listing = await Listing.findById(id).populate("reviews");
     console.log(listing);
     res.render("listings/show.ejs", {listing});
 })
@@ -156,16 +157,30 @@ app.post("/listings/:id/reviews", validateReview, wrapAsync(async (req, res) =>
 {
     let {id} = req.params;
     let listing = await Listing.findById(id);
-    let newReview = new Review(req.body.reviews);
+    console.log("ID received: "+ req.body.review);
+    let newReview = new Review(req.body.review);
 
     listing.reviews.push(newReview);
+    console.log(newReview);
 
     await newReview.save();
     await listing.save();
 
     console.log("New review added");
     res.redirect(`/listings/${listing.id}`);
-    console.log(newReview);
+    console.log(newReview.comment);
+}));
+
+//Delete a review
+app.delete("/listings/:id/reviews/:reviewId", wrapAsync(async(req, res) =>
+{
+    console.log("Entered deletion route")
+    let {id, reviewId} = req.params;
+    await Listing.findByIdAndUpdate(id, {$pull: {reviews: reviewId}});
+    await Review.findByIdAndDelete(reviewId);
+    console.log("Review deleted");
+
+    res.redirect(`/listings/${id}`);
 }));
 
 app.all("*", (req, res, next) =>
