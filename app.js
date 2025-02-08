@@ -37,8 +37,36 @@ app.set("views", path.join(__dirname, "views"));
     
 app.get("/", (req, res) => 
     {
-        res.send("Home route working");
+        res.redirect("/listings");
     });
+
+const validateListing = (req, res, next) =>
+{
+    let {error} = listingSchema.validate(req.body);
+    console.log(error.message);
+    if (error)
+    {
+        throw new ExpressError(400, error.message);
+    }
+    else
+    {
+        next();
+    }
+}
+
+const validateReview = (req, res, next) =>
+{
+    let {error} = reviewSchema.validate(req.body);
+    console.log(error.message);
+    if (error)
+    {
+        throw new ExpressError(400, error.message);
+    }
+    else
+    {
+        next();
+    }
+}
         
 app.use(express.urlencoded({extended: true}));
         // app.get("/testListing", async (req, res) => {
@@ -78,11 +106,9 @@ app.get("/listings/:id", wrapAsync (async (req, res) =>
 })
 );
 
-app.post("/listings", wrapAsync (async (req, res) =>
+app.post("/listings", validateListing, wrapAsync (async (req, res) =>
 {
     // console.log(req.body);
-    let result = listingSchema.validate(req.body);
-    console.log(result);
     let listing = new Listing(req.body);
     await listing.save();   
     res.redirect("/listings");
@@ -98,7 +124,7 @@ app.get("/listings/:id/edit", wrapAsync (async (req, res) =>
 );
 
 
-app.patch("/listings/:id", wrapAsync (async (req, res) =>
+app.patch("/listings/:id", validateListing, wrapAsync (async (req, res) =>
     {
         let {id} = req.params;
     let {title, description, price, url, location, country} = req.body;
@@ -126,7 +152,7 @@ app.delete("/listings/:id/delete", wrapAsync (async (req, res) =>
 })
 );
 
-app.post("/listings/:id/reviews", wrapAsync(async (req, res) =>
+app.post("/listings/:id/reviews", validateReview, wrapAsync(async (req, res) =>
 {
     let {id} = req.params;
     let listing = await Listing.findById(id);
