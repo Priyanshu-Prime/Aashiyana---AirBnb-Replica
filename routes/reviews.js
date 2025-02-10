@@ -1,5 +1,5 @@
 const express = require("express");
-const router = express.Router();
+const router = express.Router({mergeParams: true});
 const wrapAsync = require("../utils/wrapAsync.js");
 const ExpressError = require("../utils/ExpressError.js");
 const { reviewSchema } = require("../schema.js");
@@ -22,18 +22,21 @@ const validateReview = (req, res, next) =>
 
 router.post("/", validateReview, wrapAsync (async (req, res) =>
 {
-    console.log("Entered reviews post")
-    let id = req.params;
+    let {id} = req.params;
+    // console.log(req.params);
     let listing = await Listing.findById(id);
-    console.log(listing);
+    // console.log({listing});
     let newReview = new Review(req.body.review);
+
     listing.reviews.push(newReview);
+    // console.log(newReview);
 
     await newReview.save();
     await listing.save();
 
-    res.redirect(`/listings/${listing._id}`);
-    console.log(await Listing.findById(req.params.id));
+    // console.log("New review added");
+    res.redirect(`/listings/${listing.id}`);
+    console.log(newReview.comment);
 }));
 
 router.delete("/:reviewId", wrapAsync (async(req, res) =>
