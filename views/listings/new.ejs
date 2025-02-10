@@ -8,7 +8,7 @@
                     <div class="col-md-8">
                         <div class="title mb-3" >
                             <label for="title" class="form-label">Enter Title</label>
-                            <input name="title" class="form-control" placeholder="Add an amazing title" required>
+                            <input type="text" name="listing[title]" class="form-control" placeholder="Add an amazing title" required>
                             <div class="valid-feedback">Title looks good!</div>
                             <div class="invalid-feedback">Please enter a valid title</div>
                         </div>
@@ -16,7 +16,7 @@
                     <div class="col-md-4">
                         <div class="price mb-3">
                             <label for="price" class="form-label">Enter Price</label>
-                            <input type="number" name="price" class="form-control" placeholder="Eg: 2400" required>
+                            <input type="number" name="listing[price]" class="form-control" placeholder="Eg: 2400" required>
                             <div class="valid-feedback">Price looks good!</div>
                             <div class="invalid-feedback">Please enter a valid price</div>
                         </div>
@@ -24,19 +24,19 @@
                 </div>
                 <div class="description mb-3">
                     <label for="description" class="form-label">Enter Description</label>
-                    <input name="description" class="form-control" required>
+                    <input type="text" name="listing[description]" class="form-control" required>
                     <div class="valid-feedback">Description looks good!</div>
                     <div class="invalid-feedback">Please enter a valid description</div>
                 </div>
                 <div class="image mb-3">
                     <label for="image.url" class="form-label">Enter Image URL</label>
-                    <input name="image.url" class="form-control" placeholder="www.xyz.in/...">
+                    <input type="text" name="listing[image][url]" class="form-control" placeholder="www.xyz.in/...">
                 </div>
                 <div class="row">
                     <div class="col-md-6">
                         <div class="location mb-3">
                             <label for="location" class="form-label">Enter Location</label>
-                            <input name="location" class="form-control" required>
+                            <input type="text" name="listing[location]" class="form-control" required>
                             <div class="valid-feedback">Location looks good!</div>
                             <div class="invalid-feedback">Please enter a valid location</div>
                         </div>
@@ -44,7 +44,7 @@
                     <div class="col-md-6">
                         <div class="country mb-3">
                             <label for="country" class="form-label">Enter Country</label>
-                            <input name="country" class="form-control" required>
+                            <input type="text" name="listing[country]" class="form-control" required>
                             <div class="valid-feedback">Country name looks good!</div>
                             <div class="invalid-feedback">Please enter a valid country name</div>
                         </div>

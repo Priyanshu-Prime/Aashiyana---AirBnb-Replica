@@ -12,13 +12,14 @@ router.use(express.json());
 
 const validateListing = (req, res, next) =>
     {
-        let {listing} = req.body;
-        console.log(listing);
+        // console.log("Printing the data sent");
+        let listing = req.body;
+        // console.log(listing);
         let {error} = listingSchema.validate(listing);
-        console.log(error);
+        // console.log(error);
         if (error)
         {
-            throw new ExpressError(400, error.error);
+            throw new ExpressError(400, error);
         }
         else
             next();
@@ -48,9 +49,11 @@ router.get("/:id", wrapAsync (async (req, res) =>
 
 router.post("/", validateListing, wrapAsync (async (req, res) =>
 {
-    console.log(req.body);
-    let listing = new Listing(req.body);
-    await listing.save();   
+    console.log("Entered post");
+    let {listing} = req.body;
+    console.log(listing);
+    let newListing = new Listing(listing);
+    await newListing.save();   
     res.redirect("/listings");
 })
 );
@@ -66,20 +69,23 @@ router.get("/:id/edit", wrapAsync (async (req, res) =>
 
 router.patch("/:id", validateListing, wrapAsync (async (req, res) =>
     {
+        console.log("Edit entered")
         let {id} = req.params;
-    let {title, description, price, url, location, country} = req.body;
-    await Listing.findByIdAndUpdate(id, {
-        title: title,
-        description: description,
-        price: price,
-        url: url,
-        location: location,
-        country: country,
+        let {listing} = req.body;
+        console.log(listing);
+        await Listing.findByIdAndUpdate(id, 
+        {
+            title: listing.title,
+            description: listing.description,
+            price: listing.price,
+            url: listing.image.url,
+            location: listing.location,
+            country: listing.country,
+        })
+        .then((res)=>console.log(res))
+        .catch((err)=>console.log(err));
+        res.redirect(`/listings/${id}`);
     })
-    .then((res)=>console.log(res))
-    .catch((err)=>console.log(err));
-    res.redirect(`/listings/${id}`);
-})
 );
 
 router.delete("/:id/delete", wrapAsync (async (req, res) =>

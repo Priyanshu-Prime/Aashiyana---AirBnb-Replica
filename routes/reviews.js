@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const wrapAsync = require("../utils/wrapAsync.js");
 const ExpressError = require("../utils/ExpressError.js");
-const { listingSchema, reviewSchema } = require("../schema.js");
+const { reviewSchema } = require("../schema.js");
 const Listing = require("../models/listing.js");
 const Review = require("../models/reviews.js");
 
@@ -11,9 +11,9 @@ router.use(express.json());
 const validateReview = (req, res, next) =>
 {
     let {error} = reviewSchema.validate(req.body);
-    console.log(error);
     if (error)
     {
+        console.log(error);
         throw new ExpressError(400, error.error);
     }
     else
@@ -22,6 +22,7 @@ const validateReview = (req, res, next) =>
 
 router.post("/", validateReview, wrapAsync (async (req, res) =>
 {
+    console.log("Entered reviews post")
     let listing = await Listing.findById(req.params.id);
     let newReview = new Review(req.body.review);
     listing.reviews.push(newReview);
