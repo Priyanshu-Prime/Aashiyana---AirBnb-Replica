@@ -85,6 +85,7 @@ router.patch("/:id", validateListing, wrapAsync (async (req, res) =>
         })
         .then((res)=>console.log(res))
         .catch((err)=>console.log(err));
+        req.flash("success", "Listing Updated");
         res.redirect(`/listings/${id}`);
     })
 );
