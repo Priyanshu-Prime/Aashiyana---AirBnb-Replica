@@ -41,15 +41,24 @@ router.get("/new", isLoggedIn, wrapAsync (async (req, res) =>
 
 router.get("/:id", wrapAsync (async (req, res) =>
 {
-    let {id} = req.params;
-    const listing = await Listing.findById(id).populate("reviews").populate("owner");
-    if(!listing)
-    {
-        req.flash("error", "Requested listing does not exist");
-        res.redirect("/");
-    }
-    console.log(listing);
-    res.render("listings/show.ejs", {listing});
+    // try
+    // {
+        let {id} = req.params;
+        const listing = await Listing.findById(id).populate("reviews").populate("owner");
+        res.locals.currUser = req.user;
+        console.log(res.locals.currUser);
+        if(!listing)
+        {
+            req.flash("error", "Requested listing does not exist");
+            res.redirect("/");
+        }
+        console.log(listing);
+        res.render("listings/show.ejs", {listing});
+    // }
+    // catch(e)
+    // {
+    //     console.log(e.message);
+    // }
 })
 );
 

@@ -10,10 +10,12 @@
           <li class="list-group-item">Price: &#8377;<%= listing.price.toLocaleString("en-IN") %></li>
           <li class="list-group-item"><i><%= listing.location %>, <%= listing.country %></i></li>
         </ul>
-        <div class="card-body" style="display: flex">
-          <a href="/listings/<%= listing._id %>/edit" class="card-link btn btn-dark add-btn">Edit</a>
-          <button class="card-link btn btn-dark" data-bs-toggle="modal" data-bs-target="#exampleModal">Delete</button>
-        </div>
+        <% if (currUser && listing.owner._id.toString() === currUser._id.toString()) { %>
+          <div class="card-body" style="display: flex">
+            <a href="/listings/<%= listing._id %>/edit" class="card-link btn btn-dark add-btn">Edit</a>
+            <button class="card-link btn btn-dark" data-bs-toggle="modal" data-bs-target="#exampleModal">Delete</button>
+          </div>
+        <% } %>
         <hr style="opacity: 20%;">
         <div class="mb-3 mt-3 col-8">
           <h5>Leave a Review</h4>
