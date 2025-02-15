@@ -12,9 +12,7 @@
         </ul>
         <div class="card-body" style="display: flex">
           <a href="/listings/<%= listing._id %>/edit" class="card-link btn btn-dark add-btn">Edit</a>
-          <form method="POST" action="/listings/<%= listing._id %>/delete?_method=DELETE">
-            <button class="card-link btn btn-dark">Delete</button>
-         </form>
+          <button class="card-link btn btn-dark" data-bs-toggle="modal" data-bs-target="#exampleModal">Delete</button>
         </div>
         <hr style="opacity: 20%;">
         <div class="mb-3 mt-3 col-8">
@@ -52,3 +50,23 @@
         </div>
     </div>
 </body>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Confirmation</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Do you really want to delete the listing?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+        <form method="POST" action="/listings/<%= listing._id %>/delete?_method=DELETE">
+          <button type="submit" class="btn btn-primary">Yes</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
