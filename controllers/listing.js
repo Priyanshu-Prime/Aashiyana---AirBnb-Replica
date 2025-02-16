@@ -17,7 +17,7 @@ module.exports.getListing = wrapAsync (async (req, res) =>
     let {id} = req.params;
     const listing = await Listing.findById(id).populate({ path: "reviews", populate: {path: "author"}}).populate("owner");
     res.locals.currUser = req.user;
-    console.log(res.locals.currUser);
+    // console.log(res.locals.currUser);
     if(!listing)
     {
         req.flash("error", "Requested listing does not exist");
