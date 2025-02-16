@@ -5,17 +5,17 @@ const listingControl = require("../controllers/listing.js");
 
 router.use(express.json());
 
-router.get("/", listingControl.index);
+router.route("/")
+.get(listingControl.index)
+.post(validateListing, listingControl.addListing);
 
 router.get("/new", isLoggedIn, listingControl.newListing);
 
-router.get("/:id", listingControl.getListing);
-
-router.post("/", validateListing, listingControl.addListing);
+router.route("/:id")
+.get(listingControl.getListing)
+.patch(isOwner, validateListing, listingControl.putEditListing);
 
 router.get("/:id/edit", isLoggedIn, listingControl.getEditListing);
-
-router.patch("/:id", isOwner, validateListing, listingControl.putEditListing);
 
 router.delete("/:id/delete", isLoggedIn, listingControl.deleteListing);
 

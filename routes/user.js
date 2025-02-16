@@ -1,17 +1,16 @@
 const express = require("express");
 const router = express.Router({mergeParams: true});
-const wrapAsync = require("../utils/wrapAsync.js");
 const passport = require("passport");
 const { saveRedirect } = require("../middleware.js");
 const userControl = require("../controllers/user.js");
 
-router.get("/signup", userControl.getSignup);
+router.route("/signup")
+.get(userControl.getSignup)
+.post(userControl.putSignup);
 
-router.post("/signup", userControl.putSignup);
-
-router.get("/login", userControl.getLoginPage);
-
-router.post("/login", saveRedirect, passport.authenticate("local", {failureRedirect: "/login", failureFlash: true}), userControl.putLogin);
+router.route("/login")
+.get(userControl.getLoginPage)
+.post(saveRedirect, passport.authenticate("local", {failureRedirect: "/login", failureFlash: true}), userControl.putLogin);
 
 router.get("/logout", userControl.logout);
 
