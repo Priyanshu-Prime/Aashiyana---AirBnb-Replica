@@ -13,7 +13,11 @@ const flash = require("connect-flash");
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
 const User = require("./models/user.js");
-const wrapAsync = require("./utils/wrapAsync.js");
+
+if(process.env.NODE_ENV != "production")
+{
+    require("dotenv").config();
+}
 
 app.use(express.static(path.join(__dirname, "/public")));
 

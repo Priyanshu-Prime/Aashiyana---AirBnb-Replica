@@ -1,5 +1,6 @@
 const wrapAsync = require("../utils/wrapAsync.js");
 const Listing = require("../models/listing.js");
+const { printEnv } = require("../cloudConfig.js");
 
 module.exports.index = wrapAsync (async (req, res) => 
 {
@@ -28,9 +29,13 @@ module.exports.getListing = wrapAsync (async (req, res) =>
 
 module.exports.addListing = wrapAsync (async (req, res) =>
 {
+    console.log("Entered controller");
+    let url = req.file.path;
+    let fname = req.file.filename;
     let {listing} = req.body;
     console.log(listing);
     let newListing = new Listing(listing);
+    newListing.image = {fname, url};
     newListing.owner = req.user._id;
     await newListing.save();   
     req.flash("success", "New Listing Added");
