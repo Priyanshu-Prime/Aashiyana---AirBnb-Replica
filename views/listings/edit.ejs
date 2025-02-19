@@ -3,7 +3,7 @@
     <div class="row">
         <div class="col-8 offset-2">
             <h3 style="margin: 2rem 0rem">Create New Listing</h3>
-            <form method="POST" action="/listings/<%= listing._id %>?_method=PATCH" novalidate class="needs-validation">
+            <form method="POST" action="/listings/<%= listing._id %>?_method=PATCH" novalidate class="needs-validation" enctype="multipart/form-data">
                 <div class="row">
                     <div class="col-md-8">
                         <div class="title mb-3" >
@@ -29,8 +29,8 @@
                     <div class="invalid-feedback">Please enter a valid description</div>
                 </div>
                 <div class="image mb-3">
-                    <label for="image.url" class="form-label">Enter Image URL</label>
-                    <input name="listing[image][url]" type="url" class="form-control" value="<%= listing.image.url %>" required>
+                    <label for="listing[image][url]" class="form-label">Enter Image URL</label>
+                    <input name="listing[image][url]" type="file" class="form-control">
                     <div class="valid-feedback">Image URL looks good!</div>
                     <div class="invalid-feedback">Please enter a Image URL</div>
                 </div>
