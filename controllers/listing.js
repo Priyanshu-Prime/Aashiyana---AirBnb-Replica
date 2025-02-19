@@ -54,30 +54,36 @@ module.exports.putEditListing = wrapAsync (async (req, res) =>
     console.log("Edit entered")
     let {id} = req.params;
     let {listing} = req.body;
-    console.log(listing);
+    // console.log(listing);
     if(!listing)
-        {
-            req.flash("error", "Requested listing does not exist");
-            res.redirect("/");
-        }
+    {
+        req.flash("error", "Requested listing does not exist");
+        res.redirect("/");
+    }
     let update = await Listing.findByIdAndUpdate(id, 
     {
         title: listing.title,
         description: listing.description,
         price: listing.price,
-        url: listing.image.url,
         location: listing.location,
         country: listing.country,
-    })
-    .then((res)=>console.log(res))
-    .catch((err)=>console.log(err));
-
+    })    
+    
     console.log(update);
     if(typeof req.file !== "undefined")
     {
         let url = req.file.path;
         let fname = req.file.filename;
-        update.image = {fname, url};
+        console.log(url+"\n"+fname);
+        try
+        {
+            update.image.url = url;
+            update.image.filename = fname;
+        }
+        catch(e)
+        {
+            console.log(e.message);
+        }
         await update.save();
     }
     req.flash("success", "Listing Updated");

@@ -114,3 +114,47 @@ form label
     max-height: 10rem !important;
     overflow: none !important;
 }
+
+.preview
+{
+    margin-top: 0.5rem;
+    background-color: rgb(79, 149, 235);
+    max-width: 20px;
+    max-height: 20px;
+    text-align: center;
+    color: white;
+    border-radius: 50%;
+    position: relative;
+}
+
+.preview:hover
+{
+    background-color: rgb(53, 103, 231);
+    cursor: pointer;
+}
+
+.preview:hover + .pimage img
+{
+    opacity: 1;
+    visibility: visible;
+}
+    
+.pimage {
+    position: relative;
+    display: inline-block; /* Only takes the necessary space */
+}
+
+.pimage img
+{
+    position: absolute;
+    /* margin-top: 0.5rem; */
+    max-width: 300px;
+    max-height: 250px;
+    z-index: 100;
+    transform: translateX(15%) translateY(-20%);
+    visibility: hidden;
+    opacity: 0; /* Start hidden */
+    transition: opacity 0.5s ease-in-out;
+    border-radius: 0.5rem;
+    box-shadow: 1px 5px 10px black;
+}
