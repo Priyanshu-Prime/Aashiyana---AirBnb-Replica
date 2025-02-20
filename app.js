@@ -19,6 +19,8 @@ if(process.env.NODE_ENV != "production")
     require("dotenv").config();
 }
 
+const mapApi = process.env.MAP_API_KEY;
+
 app.use(express.static(path.join(__dirname, "/public")));
 
 app.use(methodOverride('_method'));
@@ -89,6 +91,7 @@ app.use((req, res, next)=>
     res.locals.success = req.flash("success");
     res.locals.error = req.flash("error");
     res.locals.users = req.user;
+    res.locals.mapApi = process.env.MAP_API_KEY;
     // console.log(req.user);
     // console.log(res.locals.success);
     // console.log(res.locals.error);
