@@ -1,6 +1,7 @@
 const wrapAsync = require("../utils/wrapAsync.js");
 const Listing = require("../models/listing.js");
 const { printEnv } = require("../cloudConfig.js");
+const fetch = require("node-fetch");
 
 module.exports.index = wrapAsync (async (req, res) => 
 {
@@ -29,17 +30,33 @@ module.exports.getListing = wrapAsync (async (req, res) =>
 
 module.exports.addListing = wrapAsync (async (req, res) =>
 {
-    console.log("Entered controller");
+    // console.log("Entered controller");
     let url = req.file.path;
     let fname = req.file.filename;
     let {listing} = req.body;
-    console.log(listing);
-    let newListing = new Listing(listing);
-    newListing.image = {fname, url};
-    newListing.owner = req.user._id;
-    await newListing.save();   
-    req.flash("success", "New Listing Added");
-    res.redirect("/listings");
+
+    const address = listing.location;
+    const mapApi = process.env.MAP_API_KEY;
+    const result = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${mapApi}`);
+    const data = await result.json();
+    // console.log(data.results[0].geometry.location);
+
+    const coord = data.results[0].geometry.location;
+    try
+    {
+        let newListing = new Listing(listing);
+        newListing.image = {fname, url};
+        newListing.owner = req.user._id;
+        newListing.coordinates = [coord.lat, coord.lng];
+        console.log(newListing.coordinates);
+        await newListing.save();   
+        req.flash("success", "New Listing Added");
+        res.redirect("/listings");
+    }
+    catch(e)
+    {
+        console.log(e);
+    }
 });
 
 module.exports.getEditListing = wrapAsync (async (req, res) =>
@@ -54,6 +71,12 @@ module.exports.putEditListing = wrapAsync (async (req, res) =>
     console.log("Edit entered")
     let {id} = req.params;
     let {listing} = req.body;
+
+    const address = listing.location;
+    const mapApi = process.env.MAP_API_KEY;
+    const result = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${mapApi}`);
+    const data = await result.json();
+    const coord = data.results[0].geometry.location;
     // console.log(listing);
     if(!listing)
     {
@@ -70,6 +93,8 @@ module.exports.putEditListing = wrapAsync (async (req, res) =>
     })    
     
     console.log(update);
+    update.coordinates = [coord.lat, coord.lng];
+    console.log(update.coordinates);
     if(typeof req.file !== "undefined")
     {
         let url = req.file.path;
@@ -84,8 +109,8 @@ module.exports.putEditListing = wrapAsync (async (req, res) =>
         {
             console.log(e.message);
         }
-        await update.save();
     }
+    await update.save();
     req.flash("success", "Listing Updated");
     res.redirect(`/listings/${id}`);
 });

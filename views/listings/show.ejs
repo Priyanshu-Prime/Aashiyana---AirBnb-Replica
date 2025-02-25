@@ -1,4 +1,9 @@
 <% layout("/layouts/boilerplate.ejs") %>
+<script>
+  const l1 = "<%= listing.coordinates[0] %>";
+  const l2 = "<%= listing.coordinates[1] %>";
+  const nameLocation = "<%= listing.title %>"
+</script>
 <body>
     <div class="card listing-card col-6 offset-3" style="max-width: 40rem; margin-top: 2rem">
         <img src="<%= listing.image.url %>" class="card-img-top" alt="<%= listing.image.filename %>">
@@ -68,7 +73,9 @@
             <% } %>
           </div>
         </div>
+        <hr>
         <!-- <% } %> -->
+         <% if(listing.coordinates.length) { %>
         <h5 class="mb-3">Where you'll be</h5>
          <div class="mapBox" id="map"></div>
          <script>
@@ -79,6 +86,7 @@
             // Add other bootstrap parameters as needed, using camel case.
         });
         </script>
+        <% } %>
     </div>
     <script src="/js/map.js"></script>
 </body>

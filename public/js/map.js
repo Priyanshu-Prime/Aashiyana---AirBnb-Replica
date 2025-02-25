@@ -1,21 +1,25 @@
 let map;
 
 async function initMap() {
+
   if(!window.google || !google.maps)
   {
     console.log("Not loading");
-    return;
+    // return;
   }
   // The location of Uluru
-  const position = { lat: 24.9358, lng: 74.6313 };
+  console.log(l1);
+  console.log(l2);
+  const position = { lat: Number(l1), lng: Number(l2) };
   // Request needed libraries.
   //@ts-ignore
   const { Map } = await google.maps.importLibrary("maps");
   const { AdvancedMarkerElement } = await google.maps.importLibrary("marker");
+  const { InfoWindow } = await google.maps.importLibrary("core");
 
   // The map, centered at Uluru
   map = new Map(document.getElementById("map"), {
-    zoom: 10,
+    zoom: 12,
     center: position,
     mapId: "DEMO_MAP_ID",
   });
@@ -24,8 +28,32 @@ async function initMap() {
   const marker = new AdvancedMarkerElement({
     map: map,
     position: position,
-    title: "Uluru",
+    title: nameLocation,
   });
+
+  const infoWindow = new InfoWindow({
+    content: nameLocation, // Text to display
+  });
+  
+  marker.addEventListener("click", () => {
+    // If the InfoWindow is already open, close it; otherwise, open it
+    if (infoWindow.getMap()) {
+      infoWindow.close();
+    } else {
+      infoWindow.open({ anchor: marker, map });
+    }
+  });
+
+  // // Show infoWindow on marker hover
+  // marker.addListener("click", () => {
+  //   infoWindow.open(map, marker);
+  // });
+  
+  // // Hide infoWindow when mouse leaves the marker
+  // marker.addListener("click", () => {
+  //   infoWindow.close();
+  // });
 }
+
 
 initMap();
