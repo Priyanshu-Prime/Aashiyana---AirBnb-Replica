@@ -1,5 +1,52 @@
 <% layout("/layouts/boilerplate.ejs") %>
+<style>
+    #filters
+    {
+        display: flex;
 
+    }
+    .filter
+    {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-left: 1.5rem;
+        margin-top: 1.25rem;
+        opacity: 0.8;
+    }
+    .filter:hover
+    {
+        opacity: 1;
+        cursor: pointer;
+    }
+</style>
+
+<div id="filters">
+    <div class="filter">
+        <div><i class="fa-solid fa-fire-flame-curved"></i></div>
+        <p>Trending</p>
+    </div>
+    <div class="filter">
+        <div><i class="fa-solid fa-bed"></i></div>
+        <p>Rooms</p>
+    </div>
+    <div class="filter">
+        <div><i class="fa-solid fa-person-swimming"></i></div>
+        <p>Pools</p>
+    </div>
+    <div class="filter">
+        <div><i class="fa-solid fa-mountain"></i></div>
+        <p>Mountains</p>
+    </div>
+    <div class="filter">
+        <div><i class="fa-solid fa-city"></i></div>
+        <p>Iconic Cities</p>
+    </div>
+    <div class="filter">
+        <div><i class="fa-solid fa-chess-rook"></i></div>
+        <p>Castles</p>
+    </div>
+</div>
     <body>
         <h3 style="padding: 2rem 1rem">All Listings</h3>
         <div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1">
