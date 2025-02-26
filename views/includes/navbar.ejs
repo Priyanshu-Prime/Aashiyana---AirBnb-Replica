@@ -1,3 +1,10 @@
+<style>
+    .search-bar
+    {
+        border-radius: 2.5rem;
+    }
+</style>
+    
 <nav class="navbar navbar-expand-md bg-body-light border-bottom sticky-top">
     <div class="container-fluid">
         <a class="navbar-brand" href="#"><i class="fa-solid fa-suitcase"></i></a>
@@ -9,6 +16,12 @@
                 <a class="nav-link" href="/">Home</a>
                 <a class="nav-link" href="/listings">All Listings</a>
                 <a class="nav-link" href="/listings/new">Add New Listing</a>
+            </div>
+            <div class="navbar-nav ms-auto">
+                <form class="d-flex" role="search" method="GET" action="/listings/search">
+                    <input name="query" class="form-control search-bar me-2" style="width: 25rem;" type="search" placeholder="Search Listings">
+                    <button class="btn search-bar btn-outline-success" type="submit">Search</button>
+                </form>
             </div>
         </div>
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">

@@ -15,6 +15,7 @@ router.route("/")
 router.get("/new", isLoggedIn, listingControl.newListing);
 
 router.get("/filters/:category", listingControl.getFilterPage);
+router.get("/search", listingControl.searchListing);
 
 router.route("/:id")
 .get(listingControl.getListing)

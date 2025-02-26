@@ -28,6 +28,7 @@ app.engine("ejs", ejsMate);
 
 let port = 8080;
 const MONGO_URL = "mongodb://127.0.0.1:27017/wanderlust";
+// const DB_URL = process.env.ATLASDB_URL;
 
 async function main()
 {

@@ -1,35 +1,4 @@
 <% layout("/layouts/boilerplate.ejs") %>
-<style>
-    .filter-row
-    {
-        display: flex;
-        justify-content: space-between;
-    }
-    .filter
-    {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        margin-left: 1.5rem;
-        margin-top: 1.25rem;
-        opacity: 0.8;
-    }
-    .filter:hover
-    {
-        opacity: 1;
-        cursor: pointer;
-    }
-    .filter p
-    {
-        font-size: 0.8rem;
-    }
-    .filter-row a
-    {
-        color: inherit;
-        text-decoration: none;
-    }
-</style>
-
 <div id="filters">
     <div class="filter-row">
         <a href="/listings/filters/trending"><div class="filter">
@@ -73,6 +42,12 @@
             <p>Snowy</p>
         </div></a>
     </div>
+    <div class="right">
+        <div class="form-check-reverse form-switch">
+            <input class="form-check-input" style="transform: translateY(1px);" type="checkbox" role="switch" id="flexSwitchCheckDefault">
+            <label class="form-check-label" for="flexSwitchCheckDefault">Show prices including taxes</label>
+          </div>
+    </div>
 </div>
     <body>
         <h3 style="padding: 2rem 1rem">All Listings</h3>
@@ -97,3 +72,33 @@
             <% } %>
         </div>
     </body>
+
+    <script>
+        let taxSwitch = document.getElementById("flexSwitchCheckDefault");
+        let priceElements = document.querySelectorAll(".listing-card .btn-primary");
+
+        let originalPrices = [];   // Store the original prices before tax
+
+        priceElements.forEach((element, index) => {
+            let priceText = element.innerText.match(/\d+/g)?.join("");    // Extract the price from the button text
+            if (priceText) {
+                originalPrices[index] = parseInt(priceText); // Store the original price
+            }
+        });
+
+        taxSwitch.addEventListener("change", function ()  // Event listener for toggle switch
+        {
+            priceElements.forEach((element, index) => 
+            {
+                if (this.checked) 
+                {
+                    let newPrice = Math.round(originalPrices[index] * 1.18);
+                    element.innerHTML = `Book for &#8377;${newPrice.toLocaleString("en-IN")}`;
+                } 
+                else 
+                {
+                    element.innerHTML = `Book for &#8377;${originalPrices[index].toLocaleString("en-IN")}`;  // Restore original prices
+                }
+            });
+        });
+    </script>

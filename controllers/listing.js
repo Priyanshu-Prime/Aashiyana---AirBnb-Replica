@@ -169,4 +169,15 @@ module.exports.getFilterPage = wrapAsync (async (req, res) =>
     {
         console.log(e.message);
     }
+});
+
+module.exports.searchListing = wrapAsync ( async (req, res) =>
+{
+    const q = req.query.query;
+    console.log(q);
+
+    const searchedListings = await Listing.find({title: { $regex: q, $options: "i"}});
+
+    console.log(searchedListings);
+    res.render("listings/index.ejs", {allListings: searchedListings});
 })
