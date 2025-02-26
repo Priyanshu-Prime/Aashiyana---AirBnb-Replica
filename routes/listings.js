@@ -14,6 +14,8 @@ router.route("/")
 
 router.get("/new", isLoggedIn, listingControl.newListing);
 
+router.get("/filters/:category", listingControl.getFilterPage);
+
 router.route("/:id")
 .get(listingControl.getListing)
 .patch(isOwner, upload.single("listing[image][url]"), validateListing, listingControl.putEditListing);

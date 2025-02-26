@@ -28,13 +28,30 @@
                     <div class="valid-feedback">Description looks good!</div>
                     <div class="invalid-feedback">Please enter a valid description</div>
                 </div>
-                <div class="image mb-3">
-                    <label for="listing[image][url]" class="form-label">Enter Image URL</label>
-                    <input name="listing[image][url]" type="file" class="form-control">
-                    <div class="valid-feedback">Image URL looks good!</div>
-                    <div class="invalid-feedback">Please enter a Image URL</div>
-                    <div class=" ms-3 preview">i</div>
-                    <div class="pimage"><img src="<%= listing.image.url %>"></div>
+                <div class="row">
+                    <div class="image mb-3 col-md-6">
+                        <label for="listing[image][url]" class="form-label">Enter Image URL</label>
+                        <input name="listing[image][url]" type="file" class="form-control">
+                        <div class="valid-feedback">Image URL looks good!</div>
+                        <div class="invalid-feedback">Please enter a Image URL</div>
+                        <div class="ms-3 preview">i</div>
+                        <div class="pimage"><img src="<%= listing.image.url %>"></div>
+                    </div>
+                    <div class="category col-md-6">
+                        <label for="listing[category]" class="form-label">Select Category</label>
+                        <select name="listing[category]" class="form-select">
+                            <option selected><%= listing.category %></option>
+                            <option value="Trending">Trending</option>
+                            <option value="Rooms">Rooms</option>
+                            <option value="Pools">Pools</option>
+                            <option value="Mountains">Mountains</option>
+                            <option value="Iconic Cities">Iconic Cities</option>
+                            <option value="Castles">Castles</option>
+                            <option value="Trekking">Trekking</option>
+                            <option value="Camping">Camping</option>
+                            <option value="Snowy">Snowy</option>
+                        </select>
+                    </div>
                 </div>
                 <div class="row">
                     <div class="col-md-6">

@@ -74,15 +74,24 @@ module.exports.putEditListing = wrapAsync (async (req, res) =>
 
     const address = listing.location;
     const mapApi = process.env.MAP_API_KEY;
-    const result = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${mapApi}`);
-    const data = await result.json();
+    let result, data;
+    try
+    {
+       result = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${mapApi}`);
+       data = await result.json();
+    }
+    catch(e)
+    {
+        console.log(e.messsage);
+    }
     const coord = data.results[0].geometry.location;
-    // console.log(listing);
+    console.log(listing);
     if(!listing)
     {
         req.flash("error", "Requested listing does not exist");
         res.redirect("/");
     }
+    try{
     let update = await Listing.findByIdAndUpdate(id, 
     {
         title: listing.title,
@@ -91,10 +100,11 @@ module.exports.putEditListing = wrapAsync (async (req, res) =>
         location: listing.location,
         country: listing.country,
     })    
-    
+    update.category = listing.category;
     console.log(update);
     update.coordinates = [coord.lat, coord.lng];
-    console.log(update.coordinates);
+    // console.log(update.coordinates);
+
     if(typeof req.file !== "undefined")
     {
         let url = req.file.path;
@@ -111,6 +121,11 @@ module.exports.putEditListing = wrapAsync (async (req, res) =>
         }
     }
     await update.save();
+}
+catch(e)
+{
+    console.log(e.message);
+}
     req.flash("success", "Listing Updated");
     res.redirect(`/listings/${id}`);
 });
@@ -123,4 +138,35 @@ module.exports.deleteListing = wrapAsync (async (req, res) =>
     .catch((err) => console.log(err));
     req.flash("success", "Listing Deleted");
     res.redirect("/listings");
+})
+
+module.exports.getFilterPage = wrapAsync (async (req, res) =>
+{
+    let {category} = req.params;
+    const filterMap = 
+    {
+        trending: {category: "Trending"},
+        rooms: {category: "Rooms"},
+        pools: {category: "Pools"},
+        mountains: {category: "Mountains"},
+        iconiccities: {category: "Iconic Cities"},
+        castles: {category: "Castles"},
+        trekking: {category: "Trekking"},
+        villages: {category: "Villages"},
+        camping: {category: "Camping"},
+        snowy: {category: "Snowy"}
+    }
+
+    let c = filterMap[category];
+    console.log(c);
+    try
+    {
+        let filteredListings = await Listing.find(c);
+        console.log(filteredListings)
+        res.render("listings/index.ejs", {allListings: filteredListings});
+    }
+    catch(e)
+    {
+        console.log(e.message);
+    }
 })

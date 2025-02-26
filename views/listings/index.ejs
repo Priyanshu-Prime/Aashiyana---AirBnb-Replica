@@ -1,9 +1,9 @@
 <% layout("/layouts/boilerplate.ejs") %>
 <style>
-    #filters
+    .filter-row
     {
         display: flex;
-
+        justify-content: space-between;
     }
     .filter
     {
@@ -19,32 +19,59 @@
         opacity: 1;
         cursor: pointer;
     }
+    .filter p
+    {
+        font-size: 0.8rem;
+    }
+    .filter-row a
+    {
+        color: inherit;
+        text-decoration: none;
+    }
 </style>
 
 <div id="filters">
-    <div class="filter">
-        <div><i class="fa-solid fa-fire-flame-curved"></i></div>
-        <p>Trending</p>
-    </div>
-    <div class="filter">
-        <div><i class="fa-solid fa-bed"></i></div>
-        <p>Rooms</p>
-    </div>
-    <div class="filter">
-        <div><i class="fa-solid fa-person-swimming"></i></div>
-        <p>Pools</p>
-    </div>
-    <div class="filter">
-        <div><i class="fa-solid fa-mountain"></i></div>
-        <p>Mountains</p>
-    </div>
-    <div class="filter">
-        <div><i class="fa-solid fa-city"></i></div>
-        <p>Iconic Cities</p>
-    </div>
-    <div class="filter">
-        <div><i class="fa-solid fa-chess-rook"></i></div>
-        <p>Castles</p>
+    <div class="filter-row">
+        <a href="/listings/filters/trending"><div class="filter">
+            <div><i class="fa-solid fa-fire-flame-curved"></i></div>
+            <p>Trending</p>
+        </div></a>
+        <a href="/listings/filters/rooms"><div class="filter">
+            <div><i class="fa-solid fa-bed"></i></div>
+            <p>Rooms</p>
+        </div></a>
+        <a href="/listings/filters/pools"><div class="filter">
+            <div><i class="fa-solid fa-person-swimming"></i></div>
+            <p>Pools</p>
+        </div></a>
+        <a href="/listings/filters/mountains"><div class="filter">
+            <div><i class="fa-solid fa-mountain"></i></div>
+            <p>Mountains</p>
+        </div></a>
+        <a href="/listings/filters/iconiccities"><div class="filter">
+            <div><i class="fa-solid fa-city"></i></div>
+            <p>Iconic Cities</p>
+        </div></a>
+        <a href="/listings/filters/castles"><div class="filter">
+            <div><i class="fa-solid fa-chess-rook"></i></div>
+            <p>Castles</p>
+        </div></a>
+        <a href="/listings/filters/trekking"><div class="filter">
+            <div><i class="fa-solid fa-person-hiking"></i></div>
+            <p>Trekking</p>
+        </div></a>
+        <a href="/listings/filters/camping"><div class="filter">
+            <div><i class="fa-solid fa-campground"></i></div>
+            <p>Camping</p>
+        </div></a>
+        <a href="/listings/filters/villages"><div class="filter">
+            <div><i class="fa-solid fa-tractor"></i></div>
+            <p>Villages</p>
+        </div></a>
+        <a href="/listings/filters/snowy"><div class="filter">
+            <div><i class="fa-solid fa-snowflake"></i></div>
+            <p>Snowy</p>
+        </div></a>
     </div>
 </div>
     <body>
