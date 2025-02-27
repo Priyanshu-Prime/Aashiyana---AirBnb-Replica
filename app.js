@@ -9,6 +9,7 @@ const listings = require("./routes/listings.js");
 const reviews = require("./routes/reviews.js");
 const userRouter = require("./routes/user.js");
 const session = require("express-session");
+const MongoStore = require("connect-mongo");
 const flash = require("connect-flash"); 
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
@@ -27,12 +28,12 @@ app.use(methodOverride('_method'));
 app.engine("ejs", ejsMate);
 
 let port = 8080;
-const MONGO_URL = "mongodb://127.0.0.1:27017/wanderlust";
-// const DB_URL = process.env.ATLASDB_URL;
+// const MONGO_URL = "mongodb://127.0.0.1:27017/wanderlust";
+const DB_URL = process.env.ATLASDB_URL;
 
 async function main()
 {
-    await mongoose.connect(MONGO_URL);
+    await mongoose.connect(DB_URL);
 }
 main()
 .then(()=> console.log("Connected to Database"))
@@ -47,7 +48,24 @@ app.use(express.urlencoded({extended: true}));
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
+const store = MongoStore.create(
+    {
+        mongoUrl: DB_URL,
+        crypto:
+        {
+            secret: "thisisasecret"
+        },
+        touchAfter: 24 * 60 * 60,
+    }
+)
+
+store.on("error", () =>
+{
+    console.log("ERROR IN MONGODB STORE", err);
+})
+
 const sessionOptions = {
+    store,
     secret: "thisisasecret",
     resave: false,
     saveUninitialized: true,

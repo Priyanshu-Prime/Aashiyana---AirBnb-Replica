@@ -1,6 +1,5 @@
 const wrapAsync = require("../utils/wrapAsync.js");
 const Listing = require("../models/listing.js");
-const { printEnv } = require("../cloudConfig.js");
 const fetch = require("node-fetch");
 
 module.exports.index = wrapAsync (async (req, res) => 
@@ -30,11 +29,13 @@ module.exports.getListing = wrapAsync (async (req, res) =>
 
 module.exports.addListing = wrapAsync (async (req, res) =>
 {
-    // console.log("Entered controller");
+    console.log("Entered controller");
     let url = req.file.path;
     let fname = req.file.filename;
+    console.log(req.body);
     let {listing} = req.body;
-
+    console.log(listing);
+    
     const address = listing.location;
     const mapApi = process.env.MAP_API_KEY;
     const result = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${mapApi}`);
