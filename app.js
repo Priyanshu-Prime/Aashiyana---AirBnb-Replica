@@ -119,6 +119,11 @@ app.use("/listings/:id/reviews", reviews);
 
 app.use("/", userRouter);
 
+app.get("/", (req, res) => 
+{
+    res.redirect("/listings");
+});
+
 app.all("*", (req, res, next) =>
 {
     next(new ExpressError(404, "Page Not Found"));
@@ -131,8 +136,3 @@ app.use((err, req, res, next) =>
         res.status(statusCode).render("error.ejs", {msg})
         // res.status(statusCode).send(msg);
     });
-
-app.get("/", (req, res) => 
-{
-    res.redirect("/listings");
-});
