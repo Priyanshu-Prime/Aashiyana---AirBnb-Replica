@@ -88,15 +88,11 @@ passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
     
-app.get("/", (req, res) => 
-    {
-        res.redirect("/listings");
-    });
 
 // app.get("/demouser", wrapAsync(async (req, res) => {
-//     let fakeUser = new User(
-//         {
-//             email: "student@gmail.com",
+    //     let fakeUser = new User(
+        //         {
+            //             email: "student@gmail.com",
 //             username: "student"
 //         }
 //     )
@@ -130,8 +126,13 @@ app.all("*", (req, res, next) =>
 
 
 app.use((err, req, res, next) => 
+    {
+        let {statusCode = 500, msg = "Something went wrong"} = err;
+        res.status(statusCode).render("error.ejs", {msg})
+        // res.status(statusCode).send(msg);
+    });
+
+app.get("/", (req, res) => 
 {
-    let {statusCode = 500, msg = "Something went wrong"} = err;
-    res.status(statusCode).render("error.ejs", {msg})
-    // res.status(statusCode).send(msg);
+    res.redirect("/listings");
 });
